@@ -7,10 +7,31 @@ import java.sql.SQLException;
 
 //封装“查询”和“更改”的方法
 public class DBMySQL {
+    static {
+        // 创建 DButil 对象，传入数据库账号、密码、数据库名
+        DButil dbUtil = new DButil("root", "123456", "db_student");
+
+    }//+
+
+    private static Connection getConnection() {
+        return DButil.con;
+    }//+
 
     private static Connection con=DButil.con;
     //实现查询
     public static ResultSet Query(String sql,String ...date){
+
+        try {
+            Connection con = getConnection();
+            if (con == null) {
+                System.out.println("错误：数据库连接为 null，请检查数据库配置");
+                return null;
+            }
+        }//+
+        finally {
+
+        }
+
         try {
             PreparedStatement pst= con.prepareStatement(sql);//初步加载SQL
             for(int i=0;i<date.length;i++){
@@ -22,11 +43,17 @@ public class DBMySQL {
 
 
         } catch (SQLException e) {
+            e.printStackTrace();
             return null;
         }
     }
     public static int update(String sql,String ...date){
         try {
+            Connection con = getConnection();
+            if (con == null) {
+                System.out.println("错误：数据库连接为 null");
+                return -1;
+            }//+
             PreparedStatement pst= con.prepareStatement(sql);//初步加载SQL
             for(int i=0;i<date.length;i++){
                 pst.setString(i+1,date[i]);
