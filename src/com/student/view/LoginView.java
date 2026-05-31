@@ -25,7 +25,7 @@ import java.awt.event.ActionListener;
             frame.setTitle("学生信息管理系统");
             frame.setLayout(null);
             frame.setResizable(false);
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             Tools.setPos(frame, WIDTH, HEIGHT);
             frame.setVisible(true);  //
         }
