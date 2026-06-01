@@ -6,15 +6,15 @@ import com.student.utils.Tools;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
+import java.util.UUID;
 
 //构造方法
     public class LoginView {
         private JFrame frame;
         private final int WIDTH = 500;
         private final int HEIGHT = 280;
-
+        public static String uuid;
 
         public static String admin="0";//用户
 
@@ -98,6 +98,35 @@ import java.awt.event.ActionListener;
             RegisterLabel.setBounds(10, 210, 100, 40);
             RegisterLabel.setFont(new Font("宋体", Font.PLAIN, 11));
             RegisterLabel.setForeground(new Color(166, 166, 166));
+            RegisterLabel.addMouseListener(new MouseListener() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    RegisterView window = new RegisterView();
+                    window.frame.setVisible(true);
+                }
+
+                @Override
+                public void mousePressed(MouseEvent e) {
+
+                }
+
+                @Override
+                public void mouseReleased(MouseEvent e) {
+
+                }
+
+                @Override
+                public void mouseEntered(MouseEvent e) {
+
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+
+                }
+            });{
+
+            }
 
 
             Login.addActionListener(new  ActionListener() {
@@ -116,7 +145,19 @@ import java.awt.event.ActionListener;
                             Tools.shoeMessage("账号或密码错误！");
                         }else{
                             LoginView.admin=admin.getAdmin();
-                            Tools.shoeMessage("登录成功");
+
+                            //判断账号是否已经在线
+                            uuid= UUID.randomUUID().toString().replace("-","").toString();
+                            if (admin.getSituation().equals("0")){//未在线
+                                Tools.shoeMessage("登录成功");
+                            }else{//在线
+                            int a=JOptionPane.showConfirmDialog(null,"当前帐号已在线，是否继续登陆","登陆消息",JOptionPane.YES_NO_OPTION);
+                            //确认0
+                            if(a==JOptionPane.YES_OPTION){
+                                AdminDao.update(account,uuid);
+                                Tools.shoeMessage("登陆成功");
+                            }
+                            }
                         }
 
 

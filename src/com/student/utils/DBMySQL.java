@@ -61,6 +61,7 @@ public class DBMySQL {
             return pst.executeUpdate();//返回结果集合
 
         } catch (SQLException e) {
+            e.printStackTrace();
             return -1;
             //-1代表报错，0代表更改失败，大于1均正常
         }

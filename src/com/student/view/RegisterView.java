@@ -1,5 +1,6 @@
 package com.student.view;
 
+import com.student.dao.AdminDao;
 import com.student.utils.Tools;
 
 import java.awt.EventQueue;
@@ -9,6 +10,8 @@ import javax.swing.JLabel;
 import java.awt.BorderLayout;
 import javax.swing.ImageIcon;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.SwingConstants;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -17,27 +20,13 @@ import javax.swing.JButton;
 
 public class RegisterView {
 
-	private JFrame frame;
+	public JFrame frame;
 	private JTextField textField;
 	private JTextField textField_1;
 	private JPasswordField passwordField;
 	private JPasswordField passwordField_1;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					RegisterView window = new RegisterView();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+
 
 	/**
 	 * Create the application.
@@ -129,5 +118,37 @@ public class RegisterView {
 		
 		
 		frame.getContentPane().add(lblNewLabel);
+
+		btnNewButton.addActionListener(new  ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//点击注册事件
+				String name = textField.getText();
+				String account = textField_1.getText();
+
+				String password =new String(passwordField.getPassword());
+				String password_1 = new String(passwordField_1.getPassword());
+				if(name.equals("")){
+					Tools.shoeMessage("请输入姓名");
+				}else if(account.equals("")){
+					Tools.shoeMessage("请输入账号");
+				}else if(password.equals("")){
+					Tools.shoeMessage("请输入密码");
+				}else if(password_1.equals("")){
+					Tools.shoeMessage("请再次输入密码");
+				}else if(!password.equals(password_1)){
+						Tools.shoeMessage("两次密码不一致");
+				}else{
+					int a = AdminDao.register(account,password,name,"0","0");
+					if(a==0){
+						Tools.shoeMessage("注册失败，请重试！");
+					}else if(a==1){
+						Tools.shoeMessage("注册成功！");
+					}else{
+						Tools.shoeMessage("账号冲突");
+					}
+				}
+				}
+
+		});
 	}
 }

@@ -25,5 +25,16 @@ public class AdminDao {
             }
             return null;
         }
+            //实现注册账号的功能
+            public static int register(String account,String password,String name,String situation,String admin){
+                    String aql = "insert into s_admin values(?,?,?,?,?)";
+                    int result = DBMySQL.update(aql,account,password,name,situation,admin);
+                    return result;
+            }
+            //更新账号在线状态
+            public static int update(String account,String situation){
+                    String aql = "update s_admin set situation=? where account=?";
 
+                    return DBMySQL.update(aql,situation,account);
+            }
 }
