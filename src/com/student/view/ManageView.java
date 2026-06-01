@@ -3,6 +3,7 @@ package com.student.view;
 import com.student.bean.Student;
 import com.student.dao.StudentDao;
 import com.student.utils.DButil;
+import com.student.utils.Table;
 import com.student.utils.Tools;
 
 import java.awt.EventQueue;
@@ -12,6 +13,7 @@ import javax.swing.border.TitledBorder;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.border.EtchedBorder;
+import javax.swing.table.DefaultTableModel;
 import java.awt.Color;
 
 public class ManageView {
@@ -54,7 +56,7 @@ public class ManageView {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 800, 725);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
+		frame.setResizable(false);
 		JMenuBar menuBar = new JMenuBar();
 		frame.setJMenuBar(menuBar);
 		
@@ -225,21 +227,74 @@ public class ManageView {
 		JButton btnNewButton_3 = new JButton("查找学生");
 		btnNewButton_3.setBounds(562, 41, 102, 22);
 		panel.add(btnNewButton_3);
+		//条件模糊查找    学号查找     查找全部
+		btnNewButton_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+					String conditionNum = textField_4.getText();//条件学号
+					if(conditionNum.equals("")){
+						//查询全部
+						String name = textField.getText();
+						String age = textField_1.getText();
+						String grade = textField_2.getText();
+						String num = textField_3.getText();
+
+						String gender =null;
+						if(rdbtnNewRadioButton.isSelected()){
+							gender="男";
+						}else  if(rdbtnNewRadioButton_1.isSelected()){
+							gender="女";
+						}else  if(rdbtnNewRadioButton_2.isSelected()){
+							gender="";
+						}
+
+						if (name.equals("")&&age.equals("")&&grade.equals("")&&num.equals("")&&gender.equals("")){
+							//查询全部
+							Tools.shoeMessage("查询全部");
+						}else {
+							//条件查询
+							Tools.shoeMessage("条件查询");
+						}
+					}else {
+						//单独查询
+						Tools.shoeMessage("单独查询");
+					}
+			}
+		});
 		
 		JButton btnNewButton_4 = new JButton("重置数据");
 		btnNewButton_4.setBounds(671, 41, 95, 22);
 		panel.add(btnNewButton_4);
 		
 		JPanel panel_1 = new JPanel();
-		panel_1.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "\u8D26\u53F7\u4FE1\u606F\u663E\u793A", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		panel_1.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "账号信息显示", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		panel_1.setBounds(20, 222, 766, 165);
 		frame.getContentPane().add(panel_1);
 		panel_1.setLayout(null);
-		
-		JPanel panel_2 = new JPanel();
-		panel_2.setBounds(10, 20, 746, 135);
-		panel_1.add(panel_2);
-		
+
+
+
+
+
+
+
+
+
+
+
+
+
+//		panel_1.add(panel_2);
+
+		//添加表格
+		Object columns[]={"学号","姓名","性别","班级","年龄"};
+		Table table =new Table(columns);
+		DefaultTableModel model= table.getModel();
+		JScrollPane scrollPane = table.getScrollPane();
+//		scrollPane.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "账号信息显示", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		scrollPane.setBounds(10, 20, 746, 135);
+		panel_1.add(scrollPane);
+
+
 		JPanel panel_1_1 = new JPanel();
 		panel_1_1.setLayout(null);
 		panel_1_1.setBorder(new TitledBorder(null, "账号信息显示", TitledBorder.LEADING, TitledBorder.TOP, null, null));
