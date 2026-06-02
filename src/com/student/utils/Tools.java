@@ -1,6 +1,7 @@
 package com.student.utils;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
 
@@ -21,4 +22,10 @@ public class Tools {
         //JOptionPane.showMessageDialog(null,"密码不能为空","注册消息",JOptionPane.WARNING_MESSAGE);
 
     }
+    public <T> void addTableData(DefaultTableModel model,T t){
+
+    }
+
+
+
 }

@@ -12,11 +12,11 @@ public class StudentDao {
         return res;
     }
         //通过学号查询
-    public Student getStudent(String num) {
+    public Student getStudentByNum(String num) {
         String sql = "select * from s_student where num = ?";
-        ResultSet resultSet = DBMySQL.Query(sql,num);//返回JDBC结果集
-        return null;
-    }
+        Student student = DBMySQL.QueryOne(sql,Student.class,num);//返回存放学生的java bean
 
+        return student;
+    }
 
 }

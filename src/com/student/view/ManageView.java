@@ -257,6 +257,8 @@ public class ManageView {
 					}else {
 						//单独查询
 						Tools.shoeMessage("单独查询");
+						Student student= new StudentDao().getStudentByNum(conditionNum);
+						System.out.println(student.toString());
 					}
 			}
 		});
@@ -270,17 +272,6 @@ public class ManageView {
 		panel_1.setBounds(20, 222, 766, 165);
 		frame.getContentPane().add(panel_1);
 		panel_1.setLayout(null);
-
-
-
-
-
-
-
-
-
-
-
 
 
 //		panel_1.add(panel_2);
