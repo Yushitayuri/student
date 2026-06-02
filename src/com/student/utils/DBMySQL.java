@@ -19,7 +19,7 @@ public class DBMySQL {
 
     private static Connection con=DButil.con;
     //实现查询
-    public static ResultSet Query(String sql,String ...date){
+    public static <T>ResultSet Query(String sql,String ...data){
 
         try {
             Connection con = getConnection();
@@ -34,8 +34,8 @@ public class DBMySQL {
 
         try {
             PreparedStatement pst= con.prepareStatement(sql);//初步加载SQL
-            for(int i=0;i<date.length;i++){
-                pst.setString(i+1,date[i]);
+            for(int i=0;i<data.length;i++){
+                pst.setString(i+1,data[i]);
             }
             ResultSet resultSet=pst.executeQuery();//返回结果集合
             return resultSet;

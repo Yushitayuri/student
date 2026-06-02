@@ -24,7 +24,7 @@ public class ManageView {
 	private JTextField textField_2;
 	private JTextField textField_3;
 	private JTextField textField_4;
-
+	private DefaultTableModel model;
 	/**
 	 * Launch the application.
 	 */
@@ -288,7 +288,7 @@ public class ManageView {
 		//添加表格
 		Object columns[]={"学号","姓名","性别","班级","年龄"};
 		Table table =new Table(columns);
-		DefaultTableModel model= table.getModel();
+		model= table.getModel();
 		JScrollPane scrollPane = table.getScrollPane();
 //		scrollPane.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "账号信息显示", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		scrollPane.setBounds(10, 20, 746, 135);
