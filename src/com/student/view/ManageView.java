@@ -258,8 +258,12 @@ public class ManageView {
 						//单独查询
 						Tools.shoeMessage("单独查询");
 						Student student= new StudentDao().getStudentByNum(conditionNum);
-						System.out.println(student.toString());
-					}
+                        try {
+                            Tools.addTableData(model,student);
+                        } catch (IllegalAccessException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                    }
 			}
 		});
 		
