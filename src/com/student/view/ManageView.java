@@ -15,6 +15,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.border.EtchedBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.Color;
+import java.util.List;
 
 public class ManageView {
 
@@ -249,14 +250,26 @@ public class ManageView {
 
 						if (name.equals("")&&age.equals("")&&grade.equals("")&&num.equals("")&&gender.equals("")){
 							//查询全部
-							Tools.shoeMessage("查询全部");
+							List<Student> student= new StudentDao().getStudentAll();
+							try {
+								Tools.addTableData(model,student);
+							} catch (IllegalAccessException ex) {
+								throw new RuntimeException(ex);
+							}
 						}else {
 							//条件查询
-							Tools.shoeMessage("条件查询");
+							Student students = new Student(num, name, gender, age,grade);
+                            try {
+                                List<Student> student=new StudentDao().getStudentCondition(students);
+								Tools.addTableData(model,student);
+                            } catch (IllegalAccessException ex) {
+                                throw new RuntimeException(ex);
+                            }
+
+
 						}
 					}else {
 						//单独查询
-						Tools.shoeMessage("单独查询");
 						Student student= new StudentDao().getStudentByNum(conditionNum);
                         try {
                             Tools.addTableData(model,student);
@@ -281,7 +294,7 @@ public class ManageView {
 //		panel_1.add(panel_2);
 
 		//添加表格
-		Object columns[]={"学号","姓名","性别","班级","年龄"};
+		Object columns[]={"学号","姓名","性别","年龄","班级"};
 		Table table =new Table(columns);
 		model= table.getModel();
 		JScrollPane scrollPane = table.getScrollPane();

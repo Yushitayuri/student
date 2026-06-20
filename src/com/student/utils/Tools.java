@@ -24,8 +24,8 @@ public class Tools {
         //JOptionPane.showMessageDialog(null,"密码不能为空","注册消息",JOptionPane.WARNING_MESSAGE);
 
     }
-    public <T> void addTableData(DefaultTableModel model, List<T> list) throws IllegalAccessException {
-
+    public static <T> void addTableData(DefaultTableModel model, List<T> list) throws IllegalAccessException {
+        model.setRowCount(0);
         for (T t:list){
             int len =t.getClass().getDeclaredFields().length;
             String[] data =new  String [len];
@@ -43,7 +43,7 @@ public class Tools {
 
     public static  <T> void addTableData(DefaultTableModel model, T t) throws IllegalAccessException {
 
-
+            model.setRowCount(0);
             int len =t.getClass().getDeclaredFields().length;
             String[] data =new  String [len];
             Field[] fields = t.getClass().getDeclaredFields();

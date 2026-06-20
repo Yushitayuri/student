@@ -38,51 +38,47 @@ public class DBMySQL {
         }
     }
 
-        public static <T> List<T> QueryAll(String sql, Class<T> tClass, String ...data){
-        List<T> list=new ArrayList<>();
+    public static <T> List<T> QueryAll(String sql, Class<T> tClass, String ...data) {
+        List<T> list = new ArrayList<>();
+        Connection conn = null;  // 👈 用局部变量，不要用成员变量
+        PreparedStatement pst = null;
+        ResultSet resultSet = null;
+
         try {
-            Connection con = getConnection();
-            if (con == null) {
+            conn = getConnection();  // 👈 赋值给局部变量
+            if (conn == null) {
                 System.out.println("错误：数据库连接为 null，请检查数据库配置");
                 return null;
             }
-        }//+
-        finally {
-        }
-        try {
-            PreparedStatement pst= con.prepareStatement(sql);//初步加载SQL
-            for(int i=0;i<data.length;i++){
-                pst.setString(i+1,data[i]);
+
+            pst = conn.prepareStatement(sql);
+            for (int i = 0; i < data.length; i++) {
+                pst.setString(i + 1, data[i]);
             }
-            ResultSet resultSet=pst.executeQuery();//返回结果集合
-            //单个查询
+            resultSet = pst.executeQuery();
 
             while (resultSet.next()) {
-                T instance=tClass.getDeclaredConstructor().newInstance();
-                Field[] fields = tClass.getDeclaredFields();//获取类声明中的所有字段
-                //遍历所有字段，获取每个字段并添加到列表中
+                T instance = tClass.getDeclaredConstructor().newInstance();
+                Field[] fields = tClass.getDeclaredFields();
                 for (Field field : fields) {
                     field.setAccessible(true);
-                    String res= resultSet.getString(field.getName());//得到结果
-                    field.set(instance,res);
+                    String res = resultSet.getString(field.getName());
+                    field.set(instance, res);
                 }
                 list.add(instance);
             }
             return list;
 
-        } catch (SQLException e) {
+        } catch (SQLException | InvocationTargetException | InstantiationException
+                 | IllegalAccessException | NoSuchMethodException e) {
             e.printStackTrace();
             return null;
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
+        } finally {
+            // 👇 关闭资源
+            try { if (resultSet != null) resultSet.close(); } catch (SQLException e) {}
+            try { if (pst != null) pst.close(); } catch (SQLException e) {}
+            // 注意：不要关闭 conn，因为 DButil.con 是单例，关闭后后续无法使用
         }
-        return list;
     }
     public static <T> T QueryOne(String sql, Class<T> tclass,String ...data) {
         T instance=null;
