@@ -19,7 +19,7 @@ import java.util.List;
 
 public class ManageView {
 
-	private JFrame frame;
+	JFrame frame;
 	private JTextField textField;
 	private JTextField textField_1;
 	private JTextField textField_2;
@@ -86,12 +86,26 @@ public class ManageView {
 		JMenuItem mntmNewMenuItem_1 = new JMenuItem("注销");
 		mntmNewMenuItem_1.setIcon(new ImageIcon("image/I1_1.jpg"));
 		mnNewMenu_1.add(mntmNewMenuItem_1);
-		
+
+		mntmNewMenuItem_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
+				LoginView loginView = new LoginView();
+			}
+		});
+
+
 		JMenuItem mntmNewMenuItem = new JMenuItem("退出");
 		mntmNewMenuItem.setIcon(new ImageIcon("image/I1_2.jpg"));
 		mnNewMenu_1.add(mntmNewMenuItem);
 		frame.getContentPane().setLayout(null);
-		
+
+		mntmNewMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
+
 		JLabel lblNewLabel = new JLabel("");
 		lblNewLabel.setIcon(new ImageIcon("image/3.jpg"));
 		lblNewLabel.setBounds(0, 0, 800, 100);

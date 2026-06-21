@@ -149,13 +149,18 @@ import java.util.UUID;
                             //判断账号是否已经在线
                             uuid= UUID.randomUUID().toString().replace("-","").toString();
                             if (admin.getSituation().equals("0")){//未在线
-                                Tools.shoeMessage("登录成功");
+                                new AdminDao().update(account,uuid);
+                                ManageView window = new ManageView();
+                                window.frame.setVisible(true);
+                                frame.dispose();
                             }else{//在线
                             int a=JOptionPane.showConfirmDialog(null,"当前帐号已在线，是否继续登陆","登陆消息",JOptionPane.YES_NO_OPTION);
                             //确认0
                             if(a==JOptionPane.YES_OPTION){
-                                AdminDao.update(account,uuid);
-                                Tools.shoeMessage("登陆成功");
+                                new AdminDao().update(account,uuid);
+                                ManageView window = new ManageView();
+                                window.frame.setVisible(true);
+                                frame.dispose();
                             }
                             }
                         }
