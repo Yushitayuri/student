@@ -13,6 +13,12 @@ public class StudentDao {
         int res = DBMySQL.update(sql,student.getNum(),student.getName(),student.getGender(),student.getAge(),student.getGrade());
         return res;
     }
+    public int updateStudent(Student student,String num) {
+        String sql = "update s_student set num=?,name=?,gender=?,age=?,grade=? where num=?";
+        int res = DBMySQL.update(sql,student.getNum(),student.getName(),student.getGender(),student.getAge(),student.getGrade(),num);
+        return res;
+    }
+
         //通过学号查询
     public Student getStudentByNum(String num) {
         String sql = "select * from s_student where num = ?";
@@ -64,8 +70,7 @@ public class StudentDao {
         }
 
         String finalSql = sql + whereClause.toString();
-        System.out.println("SQL: " + finalSql);
-        System.out.println("参数: " + params);
+
 
 
         List<Student> stu = DBMySQL.QueryAll(finalSql, Student.class, params.toArray(new String[0]));

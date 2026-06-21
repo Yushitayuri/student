@@ -32,9 +32,12 @@ public class Tools {
             Field[] fields = t.getClass().getDeclaredFields();
             for(int i=0;i<len;i++){
                 fields[i].setAccessible(true);
-                String value = fields[i].get(t).toString();
-                data[i] =value;
+                Object js = fields[i].get(t);
+                if(js !=null){
+                    data[i] =js.toString();
+                }
             }
+            
             model.addRow(data);
 
         }
@@ -49,8 +52,12 @@ public class Tools {
             Field[] fields = t.getClass().getDeclaredFields();
             for(int i=0;i<len;i++){
                 fields[i].setAccessible(true);
-                String value = fields[i].get(t).toString();
-                data[i] =value;
+
+                Object js = fields[i].get(t);
+                if(js !=null){
+                    data[i] =js.toString();
+                }
+
             }
             model.addRow(data);
 

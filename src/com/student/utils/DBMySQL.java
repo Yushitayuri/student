@@ -100,6 +100,8 @@ public class DBMySQL {
                     String res=resultSet.getString(field.getName());//得到了一个值
                     field.set(instance,res);
                 }
+            }else {
+                return null;
             }
 
             return  instance;
@@ -116,7 +118,7 @@ public class DBMySQL {
         } catch (NoSuchMethodException ex) {
             ex.printStackTrace();
         }
-        return instance;
+        return null;
 
     }
 

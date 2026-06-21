@@ -224,7 +224,50 @@ public class ManageView {
 		JButton btnNewButton_2 = new JButton("修改学生");
 		btnNewButton_2.setBounds(460, 41, 102, 22);
 		panel.add(btnNewButton_2);
-		
+
+		btnNewButton_2.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String name = textField.getText();
+				String age = textField_1.getText();
+				String grade = textField_2.getText();
+				String num = textField_3.getText();
+				String conditionnum = textField_4.getText();
+				String gender =null;
+				if(rdbtnNewRadioButton.isSelected()){
+					gender="男";
+				}else  if(rdbtnNewRadioButton_1.isSelected()){
+					gender="女";
+				}
+
+				if (name.equals("")){
+					Tools.shoeMessage("请输入姓名");
+				}else if (gender==null){
+					Tools.shoeMessage("请选择性别");
+				} else if (age.equals("")){
+					Tools.shoeMessage("请输入年龄");
+				}else if (grade.equals("")){
+					Tools.shoeMessage("请输入班级");
+				}else if (num.equals("")){
+					Tools.shoeMessage("请输入学号");
+				}else if (conditionnum.equals("")){
+					Tools.shoeMessage("请输入要更改的【学号】");
+				}else {
+					//信息填写完毕
+					Student student = new Student(num,name,gender,age,grade);
+					int a =new StudentDao().updateStudent(student,conditionnum);
+					if(a==1){
+						Tools.shoeMessage("更改成功");
+					}else {
+						Tools.shoeMessage("更改失败");
+					}
+
+				}
+			}
+		});
+
+
 		JButton btnNewButton_3 = new JButton("查找学生");
 		btnNewButton_3.setBounds(562, 41, 102, 22);
 		panel.add(btnNewButton_3);
@@ -271,6 +314,22 @@ public class ManageView {
 					}else {
 						//单独查询
 						Student student= new StudentDao().getStudentByNum(conditionNum);
+						//将数据回显到内容
+
+						if(student!=null){
+							textField.setText(student.getName());
+							textField_1.setText(student.getAge());
+							textField_2.setText(student.getGrade());
+							textField_3.setText(student.getNum());
+							if (student.getGender()!=null&&student.getGender().equals("男")){
+								rdbtnNewRadioButton.setSelected(true);
+							}
+							if (student.getGender()!=null&&student.getGender().equals("女")){
+								rdbtnNewRadioButton_1.setSelected(true);
+							}
+						}
+
+
                         try {
                             Tools.addTableData(model,student);
                         } catch (IllegalAccessException ex) {
