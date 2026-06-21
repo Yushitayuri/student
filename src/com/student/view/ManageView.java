@@ -20,12 +20,27 @@ import java.util.List;
 public class ManageView {
 
 	JFrame frame;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
+	// ===== 基础信息字段 =====
+	private JTextField textField_name;      // 姓名
+	private JTextField textField_age;       // 年龄
+	private JTextField textField_grade;     // 班级
+	private JTextField textField_num;       // 学号
+	private JTextField textField_search;    // 搜索框（学号）
+
+	// ===== 新增扩展字段 =====
+	private JTextField textField_birthdate; // 出生日期
+	private JTextField textField_pa;        // 政治面貌
+	private JTextField textField_address;   // 地址
+	private JTextField textField_telephone; // 电话
+	private JTextField textField_dorm;      // 宿舍
+
+	private JRadioButton rdbtnMale;         // 男
+	private JRadioButton rdbtnFemale;       // 女
+	private JRadioButton rdbtnAll;          // 全部
+	private ButtonGroup buttonGroup;
+
 	private DefaultTableModel model;
+
 	/**
 	 * Launch the application.
 	 */
@@ -33,7 +48,7 @@ public class ManageView {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					DButil dButil= new DButil("root","123456","db_student");
+					DButil dButil = new DButil("root", "123456", "db_student");
 					ManageView window = new ManageView();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
@@ -55,15 +70,18 @@ public class ManageView {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 800, 725);
+		frame.setTitle("学生信息管理系统");
+		frame.setBounds(100, 100, 900, 850);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
+
+		// ===== 菜单栏 =====
 		JMenuBar menuBar = new JMenuBar();
 		frame.setJMenuBar(menuBar);
-		
+
 		JMenu mnNewMenu_1 = new JMenu("账号");
 		menuBar.add(mnNewMenu_1);
-		
+
 		JMenuItem mntmNewMenuItem_1 = new JMenuItem("注销");
 		mntmNewMenuItem_1.setIcon(new ImageIcon("image/I1_1.jpg"));
 		mnNewMenu_1.add(mntmNewMenuItem_1);
@@ -75,325 +93,461 @@ public class ManageView {
 			}
 		});
 
-
 		JMenuItem mntmNewMenuItem = new JMenuItem("退出");
 		mntmNewMenuItem.setIcon(new ImageIcon("image/I1_2.jpg"));
 		mnNewMenu_1.add(mntmNewMenuItem);
-		frame.getContentPane().setLayout(null);
-
 		mntmNewMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);
 			}
 		});
 
+		frame.getContentPane().setLayout(null);
+
+		// ===== 顶部图片 =====
 		JLabel lblNewLabel = new JLabel("");
 		lblNewLabel.setIcon(new ImageIcon("image/3.jpg"));
 		lblNewLabel.setBounds(0, 0, 800, 100);
 		frame.getContentPane().add(lblNewLabel);
-		
+
+		// ===== 主操作面板 =====
 		JPanel panel = new JPanel();
-		panel.setBorder(new TitledBorder(null, "基础信息管理", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel.setBounds(10, 110, 776, 100);
+		panel.setBorder(new TitledBorder(null, "学生信息管理", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel.setBounds(10, 110, 876, 250);
 		frame.getContentPane().add(panel);
 		panel.setLayout(null);
-		
-		JLabel label = new JLabel("姓名");
-		label.setBounds(10, 20, 58, 15);
-		panel.add(label);
-		
-		textField = new JTextField();
-		textField.setBounds(41, 17, 90, 20);
-		panel.add(textField);
-		textField.setColumns(10);
 
-		ButtonGroup buttonGroup = new ButtonGroup();
+		// ---------- 第一行：姓名 ----------
+		JLabel label_name = new JLabel("姓名");
+		label_name.setBounds(10, 20, 50, 20);
+		panel.add(label_name);
 
-		JRadioButton rdbtnNewRadioButton = new JRadioButton("男");
-		rdbtnNewRadioButton.setBounds(141, 16, 37, 22);
-		panel.add(rdbtnNewRadioButton);
-		buttonGroup.add(rdbtnNewRadioButton);
+		textField_name = new JTextField();
+		textField_name.setBounds(65, 20, 100, 22);
+		panel.add(textField_name);
+		textField_name.setColumns(10);
 
-		JRadioButton rdbtnNewRadioButton_1 = new JRadioButton("女");
-		rdbtnNewRadioButton_1.setBounds(190, 16, 37, 22);
-		panel.add(rdbtnNewRadioButton_1);
-		buttonGroup.add(rdbtnNewRadioButton_1);
+		// ---------- 性别（单选按钮） ----------
+		rdbtnMale = new JRadioButton("男");
+		rdbtnMale.setBounds(180, 20, 50, 22);
+		panel.add(rdbtnMale);
 
-		JRadioButton rdbtnNewRadioButton_2 = new JRadioButton("全部");
-		rdbtnNewRadioButton_2.setBounds(229, 16, 70, 22);
-		panel.add(rdbtnNewRadioButton_2);
-		buttonGroup.add(rdbtnNewRadioButton_2);
-		//设置按钮默认值:全部
-		rdbtnNewRadioButton_2.setSelected(true);
+		rdbtnFemale = new JRadioButton("女");
+		rdbtnFemale.setBounds(235, 20, 50, 22);
+		panel.add(rdbtnFemale);
 
-		JLabel lblNewLabel_1 = new JLabel("年龄");
-		lblNewLabel_1.setBounds(305, 20, 30, 14);
-		panel.add(lblNewLabel_1);
-		
-		textField_1 = new JTextField();
-		textField_1.setBounds(335, 17, 65, 20);
-		panel.add(textField_1);
-		textField_1.setColumns(10);
-		
-		JLabel lblNewLabel_2 = new JLabel("班级");
-		lblNewLabel_2.setBounds(410, 20, 30, 14);
-		panel.add(lblNewLabel_2);
-		
-		textField_2 = new JTextField();
-		textField_2.setBounds(450, 17, 102, 20);
-		panel.add(textField_2);
-		textField_2.setColumns(10);
-		
-		JLabel lblNewLabel_3 = new JLabel("学号");
-		lblNewLabel_3.setBounds(562, 20, 30, 14);
-		panel.add(lblNewLabel_3);
-		
-		textField_3 = new JTextField();
-		textField_3.setBounds(602, 17, 153, 20);
-		panel.add(textField_3);
-		textField_3.setColumns(10);
-		
-		JLabel lblNewLabel_4 = new JLabel("按【学号】搜索");
-		lblNewLabel_4.setBounds(10, 45, 168, 14);
-		panel.add(lblNewLabel_4);
-		
-		textField_4 = new JTextField();
-		textField_4.setBounds(125, 42, 102, 20);
-		panel.add(textField_4);
-		textField_4.setColumns(10);
-		
-		JButton btnNewButton = new JButton("增加学生");
-		btnNewButton.setBounds(255, 41, 102, 22);
-		panel.add(btnNewButton);
+		rdbtnAll = new JRadioButton("全部");
+		rdbtnAll.setBounds(290, 20, 60, 22);
+		panel.add(rdbtnAll);
 
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String name = textField.getText();
-				String age = textField_1.getText();
-				String grade = textField_2.getText();
-				String num = textField_3.getText();
+		buttonGroup = new ButtonGroup();
+		buttonGroup.add(rdbtnMale);
+		buttonGroup.add(rdbtnFemale);
+		buttonGroup.add(rdbtnAll);
+		rdbtnAll.setSelected(true); // 默认选中"全部"
 
-				String gender =null;
-				if(rdbtnNewRadioButton.isSelected()){
-					gender="男";
-				}else  if(rdbtnNewRadioButton_1.isSelected()){
-					gender="女";
-				}
+		// ---------- 第一行：年龄 ----------
+		JLabel label_age = new JLabel("年龄");
+		label_age.setBounds(370, 20, 40, 20);
+		panel.add(label_age);
 
-				if (name.equals("")){
-					Tools.shoeMessage("请输入姓名");
-				}else if (gender==null){
-					Tools.shoeMessage("请选择性别");
-				} else if (age.equals("")){
-					Tools.shoeMessage("请输入年龄");
-				}else if (grade.equals("")){
-					Tools.shoeMessage("请输入班级");
-				}else if (num.equals("")){
-					Tools.shoeMessage("请输入学号");
-				}else {
-					//信息填写完毕
-					Student student = new Student(name, gender, age, grade,num);
-					int res=new StudentDao().addStudent(student);
-					if(res==1){
-						Tools.shoeMessage("添加成功");
-					}else{
-						Tools.shoeMessage("添加失败，请修改信息");
-					}
-				}
-			}
-		});
+		textField_age = new JTextField();
+		textField_age.setBounds(415, 20, 80, 22);
+		panel.add(textField_age);
+		textField_age.setColumns(10);
 
+		// ---------- 第一行：班级 ----------
+		JLabel label_grade = new JLabel("班级");
+		label_grade.setBounds(510, 20, 40, 20);
+		panel.add(label_grade);
 
+		textField_grade = new JTextField();
+		textField_grade.setBounds(555, 20, 120, 22);
+		panel.add(textField_grade);
+		textField_grade.setColumns(10);
 
+		// ---------- 第一行：学号 ----------
+		JLabel label_num = new JLabel("学号");
+		label_num.setBounds(690, 20, 40, 20);
+		panel.add(label_num);
 
+		textField_num = new JTextField();
+		textField_num.setBounds(730, 20, 120, 22);
+		panel.add(textField_num);
+		textField_num.setColumns(10);
 
-		
-		JButton btnNewButton_1 = new JButton("删除学生");
-		btnNewButton_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnNewButton_1.setBounds(357, 41, 102, 22);
-		panel.add(btnNewButton_1);
-		btnNewButton_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String condition = textField_4.getText();
-				if(condition.equals("")){
-					Tools.shoeMessage("请输入要删除学生的学号");
-				}else {
-					int res =new StudentDao().deleteStudent(condition);
-					if(res==1){
-						Tools.shoeMessage("删除成功");
-					}else {
-						Tools.shoeMessage("删除失败");
-					}
-				}
-			}
-		});
+		// ---------- 第二行：出生日期 ----------
+		JLabel label_birthdate = new JLabel("出生日期");
+		label_birthdate.setBounds(10, 55, 60, 20);
+		panel.add(label_birthdate);
 
+		textField_birthdate = new JTextField();
+		textField_birthdate.setBounds(75, 55, 120, 22);
+		textField_birthdate.setToolTipText("格式: yyyy-MM-dd");
+		panel.add(textField_birthdate);
+		textField_birthdate.setColumns(10);
 
-		JButton btnNewButton_2 = new JButton("修改学生");
-		btnNewButton_2.setBounds(460, 41, 102, 22);
-		panel.add(btnNewButton_2);
+		// ---------- 第二行：政治面貌 ----------
+		JLabel label_pa = new JLabel("政治面貌");
+		label_pa.setBounds(210, 55, 60, 20);
+		panel.add(label_pa);
 
-		btnNewButton_2.addActionListener(new ActionListener() {
+		textField_pa = new JTextField();
+		textField_pa.setBounds(275, 55, 100, 22);
+		panel.add(textField_pa);
+		textField_pa.setColumns(10);
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				String name = textField.getText();
-				String age = textField_1.getText();
-				String grade = textField_2.getText();
-				String num = textField_3.getText();
-				String conditionnum = textField_4.getText();
-				String gender =null;
-				if(rdbtnNewRadioButton.isSelected()){
-					gender="男";
-				}else  if(rdbtnNewRadioButton_1.isSelected()){
-					gender="女";
-				}
+		// ---------- 第二行：电话 ----------
+		JLabel label_telephone = new JLabel("电话");
+		label_telephone.setBounds(390, 55, 40, 20);
+		panel.add(label_telephone);
 
-				if (name.equals("")){
-					Tools.shoeMessage("请输入姓名");
-				}else if (gender==null){
-					Tools.shoeMessage("请选择性别");
-				} else if (age.equals("")){
-					Tools.shoeMessage("请输入年龄");
-				}else if (grade.equals("")){
-					Tools.shoeMessage("请输入班级");
-				}else if (num.equals("")){
-					Tools.shoeMessage("请输入学号");
-				}else if (conditionnum.equals("")){
-					Tools.shoeMessage("请输入要更改的【学号】");
-				}else {
-					//信息填写完毕
-					Student student = new Student(num,name,gender,age,grade);
-					int a =new StudentDao().updateStudent(student,conditionnum);
-					if(a==1){
-						Tools.shoeMessage("更改成功");
-					}else {
-						Tools.shoeMessage("更改失败");
-					}
+		textField_telephone = new JTextField();
+		textField_telephone.setBounds(435, 55, 130, 22);
+		panel.add(textField_telephone);
+		textField_telephone.setColumns(10);
 
-				}
-			}
-		});
+		// ---------- 第二行：宿舍 ----------
+		JLabel label_dorm = new JLabel("宿舍");
+		label_dorm.setBounds(580, 55, 40, 20);
+		panel.add(label_dorm);
 
+		textField_dorm = new JTextField();
+		textField_dorm.setBounds(625, 55, 80, 22);
+		panel.add(textField_dorm);
+		textField_dorm.setColumns(10);
 
-		JButton btnNewButton_3 = new JButton("查找学生");
-		btnNewButton_3.setBounds(562, 41, 102, 22);
-		panel.add(btnNewButton_3);
-		//条件模糊查找    学号查找     查找全部
-		btnNewButton_3.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-					String conditionNum = textField_4.getText();//条件学号
-					if(conditionNum.equals("")){
-						//查询全部
-						String name = textField.getText();
-						String age = textField_1.getText();
-						String grade = textField_2.getText();
-						String num = textField_3.getText();
+		// ---------- 第三行：地址（占一整行） ----------
+		JLabel label_address = new JLabel("地址");
+		label_address.setBounds(10, 90, 40, 20);
+		panel.add(label_address);
 
-						String gender =null;
-						if(rdbtnNewRadioButton.isSelected()){
-							gender="男";
-						}else  if(rdbtnNewRadioButton_1.isSelected()){
-							gender="女";
-						}else  if(rdbtnNewRadioButton_2.isSelected()){
-							gender="";
-						}
+		textField_address = new JTextField();
+		textField_address.setBounds(55, 90, 650, 22);
+		panel.add(textField_address);
+		textField_address.setColumns(10);
 
-						if (name.equals("")&&age.equals("")&&grade.equals("")&&num.equals("")&&gender.equals("")){
-							//查询全部
-							List<Student> student= new StudentDao().getStudentAll();
-							try {
-								Tools.addTableData(model,student);
-							} catch (IllegalAccessException ex) {
-								throw new RuntimeException(ex);
-							}
-						}else {
-							//条件查询
-							Student students = new Student(num, name, gender, age,grade);
-                            try {
-                                List<Student> student=new StudentDao().getStudentCondition(students);
-								Tools.addTableData(model,student);
-                            } catch (IllegalAccessException ex) {
-                                throw new RuntimeException(ex);
-                            }
+		// ---------- 第四行：搜索区域 ----------
+		JLabel label_search = new JLabel("按【学号】搜索");
+		label_search.setBounds(10, 125, 100, 20);
+		panel.add(label_search);
 
+		textField_search = new JTextField();
+		textField_search.setBounds(115, 125, 120, 22);
+		panel.add(textField_search);
+		textField_search.setColumns(10);
 
-						}
-					}else {
-						//单独查询
-						Student student= new StudentDao().getStudentByNum(conditionNum);
-						//将数据回显到内容
+		// ---------- 按钮区域 ----------
+		JButton btnAdd = new JButton("增加学生");
+		btnAdd.setBounds(260, 124, 100, 24);
+		panel.add(btnAdd);
 
-						if(student!=null){
-							textField.setText(student.getName());
-							textField_1.setText(student.getAge());
-							textField_2.setText(student.getGrade());
-							textField_3.setText(student.getNum());
-							if (student.getGender()!=null&&student.getGender().equals("男")){
-								rdbtnNewRadioButton.setSelected(true);
-							}
-							if (student.getGender()!=null&&student.getGender().equals("女")){
-								rdbtnNewRadioButton_1.setSelected(true);
-							}
-						}
+		JButton btnDelete = new JButton("删除学生");
+		btnDelete.setBounds(370, 124, 100, 24);
+		panel.add(btnDelete);
 
+		JButton btnUpdate = new JButton("修改学生");
+		btnUpdate.setBounds(480, 124, 100, 24);
+		panel.add(btnUpdate);
 
-                        try {
-                            Tools.addTableData(model,student);
-                        } catch (IllegalAccessException ex) {
-                            throw new RuntimeException(ex);
-                        }
-                    }
-			}
-		});
-		
-		JButton btnNewButton_4 = new JButton("重置数据");
-		btnNewButton_4.setBounds(671, 41, 95, 22);
-		panel.add(btnNewButton_4);
-		btnNewButton_4.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		JButton btnSearch = new JButton("查找学生");
+		btnSearch.setBounds(590, 124, 100, 24);
+		panel.add(btnSearch);
 
-					textField.setText("");
-					textField_1.setText("");
-					textField_2.setText("");
-					textField_3.setText("");
-					textField_4.setText("");
-					rdbtnNewRadioButton_2.setSelected(true);
+		JButton btnReset = new JButton("重置数据");
+		btnReset.setBounds(700, 124, 100, 24);
+		panel.add(btnReset);
 
+		// ===== 表格显示面板 =====
+		JPanel panel_table = new JPanel();
+		panel_table.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)),
+				"学生信息列表", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		panel_table.setBounds(10, 370, 876, 430);
+		frame.getContentPane().add(panel_table);
+		panel_table.setLayout(null);
 
-			}
-		});
-		
-		JPanel panel_1 = new JPanel();
-		panel_1.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "账号信息显示", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		panel_1.setBounds(20, 222, 766, 165);
-		frame.getContentPane().add(panel_1);
-		panel_1.setLayout(null);
-
-
-//		panel_1.add(panel_2);
-
-		//添加表格
-		Object columns[]={"学号","姓名","性别","年龄","班级"};
-		Table table =new Table(columns);
-		model= table.getModel();
+		// 表格列（10个字段）
+		Object columns[] = {"学号", "姓名", "性别", "年龄", "班级", "出生日期", "政治面貌", "电话", "宿舍", "地址"};
+		Table table = new Table(columns);
+		model = table.getModel();
 		JScrollPane scrollPane = table.getScrollPane();
-//		scrollPane.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "账号信息显示", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		scrollPane.setBounds(10, 20, 746, 135);
-		panel_1.add(scrollPane);
+		scrollPane.setBounds(10, 20, 856, 400);
+		panel_table.add(scrollPane);
 
+		// ===== 绑定事件 =====
+		bindEvents(btnAdd, btnDelete, btnUpdate, btnSearch, btnReset);
+	}
 
-		JPanel panel_1_1 = new JPanel();
-		panel_1_1.setLayout(null);
-		panel_1_1.setBorder(new TitledBorder(null, "账号信息显示", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel_1_1.setBounds(20, 397, 766, 165);
-		frame.getContentPane().add(panel_1_1);
-		
-		JPanel panel_2_1 = new JPanel();
-		panel_2_1.setBounds(10, 20, 746, 135);
-		panel_1_1.add(panel_2_1);
+	/**
+	 * 绑定所有按钮事件
+	 */
+	private void bindEvents(JButton btnAdd, JButton btnDelete, JButton btnUpdate, JButton btnSearch, JButton btnReset) {
+
+		// ---------- 增加学生 ----------
+		btnAdd.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String name = textField_name.getText().trim();
+				String age = textField_age.getText().trim();
+				String grade = textField_grade.getText().trim();
+				String num = textField_num.getText().trim();
+				String birthdate = textField_birthdate.getText().trim();
+				String pa = textField_pa.getText().trim();
+				String address = textField_address.getText().trim();
+				String telephone = textField_telephone.getText().trim();
+				String dorm = textField_dorm.getText().trim();
+
+				String gender = getSelectedGender();
+
+				// 校验必填字段（学号、姓名、性别、年龄、班级为必填）
+				if (num.equals("")) {
+					Tools.shoeMessage("请输入学号");
+					return;
+				}
+				if (name.equals("")) {
+					Tools.shoeMessage("请输入姓名");
+					return;
+				}
+				if (gender == null) {
+					Tools.shoeMessage("请选择性别");
+					return;
+				}
+				if (age.equals("")) {
+					Tools.shoeMessage("请输入年龄");
+					return;
+				}
+				if (grade.equals("")) {
+					Tools.shoeMessage("请输入班级");
+					return;
+				}
+
+				// 构造完整Student对象
+				Student student = new Student(num, name, gender, age, grade,
+						birthdate.isEmpty() ? null : birthdate,
+						pa.isEmpty() ? null : pa,
+						address.isEmpty() ? null : address,
+						telephone.isEmpty() ? null : telephone,
+						dorm.isEmpty() ? null : dorm);
+
+				int res = new StudentDao().addStudent(student);
+				if (res == 1) {
+					Tools.shoeMessage("添加成功");
+					refreshTable();  // 刷新表格
+					clearInputFields(); // 清空输入框
+				} else {
+					Tools.shoeMessage("添加失败，请检查学号是否重复");
+				}
+			}
+		});
+
+		// ---------- 删除学生 ----------
+		btnDelete.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String condition = textField_search.getText().trim();
+				if (condition.equals("")) {
+					Tools.shoeMessage("请输入要删除学生的学号");
+					return;
+				}
+				// 确认删除对话框
+				int confirm = JOptionPane.showConfirmDialog(frame,
+						"确定要删除学号为 " + condition + " 的学生吗？",
+						"删除确认", JOptionPane.YES_NO_OPTION);
+				if (confirm == JOptionPane.YES_OPTION) {
+					int res = new StudentDao().deleteStudent(condition);
+					if (res == 1) {
+						Tools.shoeMessage("删除成功");
+						refreshTable();
+						clearInputFields();
+					} else {
+						Tools.shoeMessage("删除失败，学号不存在");
+					}
+				}
+			}
+		});
+
+		// ---------- 修改学生 ----------
+		btnUpdate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String name = textField_name.getText().trim();
+				String age = textField_age.getText().trim();
+				String grade = textField_grade.getText().trim();
+				String num = textField_num.getText().trim();
+				String birthdate = textField_birthdate.getText().trim();
+				String pa = textField_pa.getText().trim();
+				String address = textField_address.getText().trim();
+				String telephone = textField_telephone.getText().trim();
+				String dorm = textField_dorm.getText().trim();
+				String conditionNum = textField_search.getText().trim();
+
+				String gender = getSelectedGender();
+
+				if (num.equals("")) {
+					Tools.shoeMessage("请输入学号");
+					return;
+				}
+				if (name.equals("")) {
+					Tools.shoeMessage("请输入姓名");
+					return;
+				}
+				if (gender == null) {
+					Tools.shoeMessage("请选择性别");
+					return;
+				}
+				if (age.equals("")) {
+					Tools.shoeMessage("请输入年龄");
+					return;
+				}
+				if (grade.equals("")) {
+					Tools.shoeMessage("请输入班级");
+					return;
+				}
+				if (conditionNum.equals("")) {
+					Tools.shoeMessage("请输入要更改的【学号】");
+					return;
+				}
+
+				Student student = new Student(num, name, gender, age, grade,
+						birthdate.isEmpty() ? null : birthdate,
+						pa.isEmpty() ? null : pa,
+						address.isEmpty() ? null : address,
+						telephone.isEmpty() ? null : telephone,
+						dorm.isEmpty() ? null : dorm);
+
+				int a = new StudentDao().updateStudent(student, conditionNum);
+				if (a == 1) {
+					Tools.shoeMessage("更改成功");
+					refreshTable();
+					clearInputFields();
+				} else {
+					Tools.shoeMessage("更改失败，请检查原学号是否存在");
+				}
+			}
+		});
+
+		// ---------- 查找学生 ----------
+		btnSearch.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String conditionNum = textField_search.getText().trim();
+
+				if (!conditionNum.equals("")) {
+					// 按学号精确查询
+					Student student = new StudentDao().getStudentByNum(conditionNum);
+					if (student != null) {
+						// 回显数据到输入框
+						textField_num.setText(student.getNum());
+						textField_name.setText(student.getName());
+						textField_age.setText(student.getAge());
+						textField_grade.setText(student.getGrade());
+						textField_birthdate.setText(student.getBirthdate() != null ? student.getBirthdate() : "");
+						textField_pa.setText(student.getPa() != null ? student.getPa() : "");
+						textField_address.setText(student.getAddress() != null ? student.getAddress() : "");
+						textField_telephone.setText(student.getTelephone() != null ? student.getTelephone() : "");
+						textField_dorm.setText(student.getDorm() != null ? student.getDorm() : "");
+
+						if (student.getGender() != null && student.getGender().equals("男")) {
+							rdbtnMale.setSelected(true);
+						} else if (student.getGender() != null && student.getGender().equals("女")) {
+							rdbtnFemale.setSelected(true);
+						} else {
+							rdbtnAll.setSelected(true);
+						}
+
+						// 表格显示该学生
+						try {
+							Tools.addTableData(model, student);
+						} catch (IllegalAccessException ex) {
+							ex.printStackTrace();
+						}
+					} else {
+						Tools.shoeMessage("未找到该学号的学生");
+						refreshTable(); // 刷新显示全部
+					}
+				} else {
+					// 条件模糊查询
+					String name = textField_name.getText().trim();
+					String age = textField_age.getText().trim();
+					String grade = textField_grade.getText().trim();
+					String num = textField_num.getText().trim();
+					String birthdate = textField_birthdate.getText().trim();
+					String pa = textField_pa.getText().trim();
+					String address = textField_address.getText().trim();
+					String telephone = textField_telephone.getText().trim();
+					String dorm = textField_dorm.getText().trim();
+					String gender = getSelectedGender();
+
+					// 如果所有条件都为空，查询全部
+					if (name.isEmpty() && age.isEmpty() && grade.isEmpty() && num.isEmpty() &&
+							birthdate.isEmpty() && pa.isEmpty() && address.isEmpty() &&
+							telephone.isEmpty() && dorm.isEmpty() &&
+							(gender == null || gender.isEmpty())) {
+						refreshTable();
+					} else {
+						// 条件查询
+						Student student = new Student(num, name, gender, age, grade,
+								birthdate.isEmpty() ? null : birthdate,
+								pa.isEmpty() ? null : pa,
+								address.isEmpty() ? null : address,
+								telephone.isEmpty() ? null : telephone,
+								dorm.isEmpty() ? null : dorm);
+						try {
+							List<Student> list = new StudentDao().getStudentCondition(student);
+							Tools.addTableData(model, list);
+						} catch (IllegalAccessException ex) {
+							ex.printStackTrace();
+						}
+					}
+				}
+			}
+		});
+
+		// ---------- 重置数据 ----------
+		btnReset.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				clearInputFields();
+				refreshTable();
+			}
+		});
+	}
+
+	/**
+	 * 获取选中的性别
+	 */
+	private String getSelectedGender() {
+		if (rdbtnMale.isSelected()) {
+			return "男";
+		} else if (rdbtnFemale.isSelected()) {
+			return "女";
+		} else if (rdbtnAll.isSelected()) {
+			return "";  // "全部" 表示不限制性别
+		}
+		return null;
+	}
+
+	/**
+	 * 刷新表格（显示所有学生）
+	 */
+	private void refreshTable() {
+		try {
+			List<Student> list = new StudentDao().getStudentAll();
+			Tools.addTableData(model, list);
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * 清空所有输入框
+	 */
+	private void clearInputFields() {
+		textField_name.setText("");
+		textField_age.setText("");
+		textField_grade.setText("");
+		textField_num.setText("");
+		textField_search.setText("");
+		textField_birthdate.setText("");
+		textField_pa.setText("");
+		textField_address.setText("");
+		textField_telephone.setText("");
+		textField_dorm.setText("");
+		rdbtnAll.setSelected(true);
 	}
 }
