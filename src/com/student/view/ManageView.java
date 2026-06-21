@@ -61,25 +61,6 @@ public class ManageView {
 		JMenuBar menuBar = new JMenuBar();
 		frame.setJMenuBar(menuBar);
 		
-		JMenu mnNewMenu = new JMenu("管理");
-		menuBar.add(mnNewMenu);
-
-		JMenuItem mntmNewMenuItem_5 = new JMenuItem("查看在线账号");
-		mntmNewMenuItem_5.setIcon(new ImageIcon("image/I1.gif"));
-		mnNewMenu.add(mntmNewMenuItem_5);
-		
-		JMenuItem mntmNewMenuItem_4 = new JMenuItem("查看所有账号");
-		mntmNewMenuItem_4.setIcon(new ImageIcon("image/I2.gif"));
-		mnNewMenu.add(mntmNewMenuItem_4);
-		
-		JMenuItem mntmNewMenuItem_3 = new JMenuItem("更改学生账号信息");
-		mntmNewMenuItem_3.setIcon(new ImageIcon("image/I3.gif"));
-		mnNewMenu.add(mntmNewMenuItem_3);
-		
-		JMenuItem mntmNewMenuItem_2 = new JMenuItem("更改当前账号密码");
-		mntmNewMenuItem_2.setIcon(new ImageIcon("image/I4.gif"));
-		mnNewMenu.add(mntmNewMenuItem_2);
-		
 		JMenu mnNewMenu_1 = new JMenu("账号");
 		menuBar.add(mnNewMenu_1);
 		
