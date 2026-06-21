@@ -220,7 +220,23 @@ public class ManageView {
 		});
 		btnNewButton_1.setBounds(357, 41, 102, 22);
 		panel.add(btnNewButton_1);
-		
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String condition = textField_4.getText();
+				if(condition.equals("")){
+					Tools.shoeMessage("请输入要删除学生的学号");
+				}else {
+					int res =new StudentDao().deleteStudent(condition);
+					if(res==1){
+						Tools.shoeMessage("删除成功");
+					}else {
+						Tools.shoeMessage("删除失败");
+					}
+				}
+			}
+		});
+
+
 		JButton btnNewButton_2 = new JButton("修改学生");
 		btnNewButton_2.setBounds(460, 41, 102, 22);
 		panel.add(btnNewButton_2);
@@ -342,6 +358,19 @@ public class ManageView {
 		JButton btnNewButton_4 = new JButton("重置数据");
 		btnNewButton_4.setBounds(671, 41, 95, 22);
 		panel.add(btnNewButton_4);
+		btnNewButton_4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+					textField.setText("");
+					textField_1.setText("");
+					textField_2.setText("");
+					textField_3.setText("");
+					textField_4.setText("");
+					rdbtnNewRadioButton_2.setSelected(true);
+
+
+			}
+		});
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "账号信息显示", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));

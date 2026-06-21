@@ -4,13 +4,17 @@ import com.student.bean.Student;
 import com.student.utils.DBMySQL;
 
 import java.lang.reflect.Field;
-import java.sql.ResultSet;
 import java.util.*;
 
 public class StudentDao {
     public int addStudent(Student student) {
         String sql = "insert into s_student values(?,?,?,?,?)";
         int res = DBMySQL.update(sql,student.getNum(),student.getName(),student.getGender(),student.getAge(),student.getGrade());
+        return res;
+    }
+    public int deleteStudent(String num) {
+        String sql =  "delete from s_student where num=?";
+        int res = DBMySQL.update(sql, String.valueOf(num));
         return res;
     }
     public int updateStudent(Student student,String num) {
