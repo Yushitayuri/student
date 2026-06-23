@@ -129,50 +129,48 @@ import java.util.UUID;
             }
 
 
-            Login.addActionListener(new  ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    //判断账号和密码输入框是否为空
-                    String account =Account.getText();
-                    String password =new String(Password.getPassword());
-                    if(account.equals("")){
-                        Tools.shoeMessage("请输入账号！");
-                    }else if(password.equals("")){
-                        Tools.shoeMessage("请输入密码！");
-                    }else {
-                        //查询当前账号是否存在、是否在线、是否强制登录
-                        Admin admin= AdminDao.isLogin(account,password);
-                        if(admin==null){
-                            Tools.shoeMessage("账号或密码错误！");
-                        }else{
-                            LoginView.admin=admin.getAdmin();
+            Login.addActionListener(e -> {
+                //判断账号和密码输入框是否为空
+                String account =Account.getText();
+                String password =new String(Password.getPassword());
+                if("".equals(account)){
+                    Tools.shoeMessage("请输入账号！");
+                }else if(password.isEmpty()){
+                    Tools.shoeMessage("请输入密码！");
+                }else {
+                    //查询当前账号是否存在、是否在线、是否强制登录
+                    Admin admin= AdminDao.isLogin(account,password);
+                    if(admin==null){
+                        Tools.shoeMessage("账号或密码错误！");
+                    }else{
+                        LoginView.admin=admin.getAdmin();
 
-                            //判断账号是否已经在线
-                            uuid= UUID.randomUUID().toString().replace("-","").toString();
-                            if (admin.getSituation().equals("0")){//未在线
-                                new AdminDao().update(account,uuid);
-                                ManageView window = new ManageView();
-                                window.frame.setVisible(true);
-                                frame.dispose();
-                            }else{//在线
-                            int a=JOptionPane.showConfirmDialog(null,"当前帐号已在线，是否继续登陆","登陆消息",JOptionPane.YES_NO_OPTION);
-                            //确认0
-                            if(a==JOptionPane.YES_OPTION){
-                                new AdminDao().update(account,uuid);
-                                ManageView window = new ManageView();
-                                window.frame.setVisible(true);
-                                frame.dispose();
-                            }
-                            }
+                        //判断账号是否已经在线
+                        uuid= UUID.randomUUID().toString().replace("-","");
+                        if ("0".equals(admin.getSituation())){//未在线
+                            AdminDao.update(account,uuid);
+                            ManageView window = new ManageView();
+                            window.frame.setVisible(true);
+                            frame.dispose();
+                        }else{//在线
+                        int a=JOptionPane.showConfirmDialog(null,"当前帐号已在线，是否继续登陆","登陆消息",JOptionPane.YES_NO_OPTION);
+                        //确认0
+                        if(a==JOptionPane.YES_OPTION){
+                            AdminDao.update(account,uuid);
+                            ManageView window = new ManageView();
+                            window.frame.setVisible(true);
+                            frame.dispose();
                         }
-
-
+                        }
                     }
 
+
                 }
+
             });
 
 
-            panel.add(label);;
+            panel.add(label);
         }
     }
 

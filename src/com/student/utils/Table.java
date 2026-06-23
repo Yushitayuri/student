@@ -9,11 +9,12 @@ public class Table {
     JTable table=null;
     JScrollPane scrollPane=null;
     DefaultTableModel model=null;
-    public Table(Object columns[]){
+    public Table(Object[] columns){
         if(model==null){
             table=new JTable();
             model=new DefaultTableModel(){
                 //创建匿名类
+                @Override
                 public boolean isCellEditable(int row, int column){
                     return false;
                 }

@@ -41,10 +41,10 @@ public class DButil {
             String temp=e.getMessage();
             System.out.println(temp);
             String[] arr1=temp.split(" ");
-            if(arr1[0].equals("Unknown")) {
+            if("Unknown".equals(arr1[0])) {
                 System.out.println("请建立名字为:" + arr1[2] + "数据库");
 
-            }   if(arr1[0].equals("Access")) {
+            }   if("Access".equals(arr1[0])) {
                     System.out.println("请检查数据库密码是否正确:数据库密码错误");
             }
         }

@@ -46,7 +46,8 @@ public class ManageView {
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
-			public void run() {
+			@Override
+            public void run() {
 				try {
 					DButil dButil = new DButil("root", "123456", "db_student");
 					ManageView window = new ManageView();
@@ -87,7 +88,8 @@ public class ManageView {
 		mnNewMenu_1.add(mntmNewMenuItem_1);
 
 		mntmNewMenuItem_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+			@Override
+            public void actionPerformed(ActionEvent e) {
 				frame.dispose();
 				LoginView loginView = new LoginView();
 			}
@@ -97,7 +99,8 @@ public class ManageView {
 		mntmNewMenuItem.setIcon(new ImageIcon("image/I1_2.jpg"));
 		mnNewMenu_1.add(mntmNewMenuItem);
 		mntmNewMenuItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+			@Override
+            public void actionPerformed(ActionEvent e) {
 				System.exit(0);
 			}
 		});
@@ -267,7 +270,7 @@ public class ManageView {
 		panel_table.setLayout(null);
 
 		// 表格列（10个字段）
-		Object columns[] = {"学号", "姓名", "性别", "年龄", "班级", "出生日期", "政治面貌", "电话", "宿舍", "地址"};
+		Object[] columns = {"学号", "姓名", "性别", "年龄", "班级", "出生日期", "政治面貌", "电话", "宿舍", "地址"};
 		Table table = new Table(columns);
 		model = table.getModel();
 		JScrollPane scrollPane = table.getScrollPane();
@@ -285,7 +288,8 @@ public class ManageView {
 
 		// ---------- 增加学生 ----------
 		btnAdd.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+			@Override
+            public void actionPerformed(ActionEvent e) {
 				String name = textField_name.getText().trim();
 				String age = textField_age.getText().trim();
 				String grade = textField_grade.getText().trim();
@@ -299,11 +303,11 @@ public class ManageView {
 				String gender = getSelectedGender();
 
 				// 校验必填字段（学号、姓名、性别、年龄、班级为必填）
-				if (num.equals("")) {
+				if ("".equals(num)) {
 					Tools.shoeMessage("请输入学号");
 					return;
 				}
-				if (name.equals("")) {
+				if ("".equals(name)) {
 					Tools.shoeMessage("请输入姓名");
 					return;
 				}
@@ -311,11 +315,11 @@ public class ManageView {
 					Tools.shoeMessage("请选择性别");
 					return;
 				}
-				if (age.equals("")) {
+				if ("".equals(age)) {
 					Tools.shoeMessage("请输入年龄");
 					return;
 				}
-				if (grade.equals("")) {
+				if ("".equals(grade)) {
 					Tools.shoeMessage("请输入班级");
 					return;
 				}
@@ -341,9 +345,10 @@ public class ManageView {
 
 		// ---------- 删除学生 ----------
 		btnDelete.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+			@Override
+            public void actionPerformed(ActionEvent e) {
 				String condition = textField_search.getText().trim();
-				if (condition.equals("")) {
+				if ("".equals(condition)) {
 					Tools.shoeMessage("请输入要删除学生的学号");
 					return;
 				}
@@ -366,7 +371,8 @@ public class ManageView {
 
 		// ---------- 修改学生 ----------
 		btnUpdate.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+			@Override
+            public void actionPerformed(ActionEvent e) {
 				String name = textField_name.getText().trim();
 				String age = textField_age.getText().trim();
 				String grade = textField_grade.getText().trim();
@@ -380,11 +386,11 @@ public class ManageView {
 
 				String gender = getSelectedGender();
 
-				if (num.equals("")) {
+				if ("".equals(num)) {
 					Tools.shoeMessage("请输入学号");
 					return;
 				}
-				if (name.equals("")) {
+				if ("".equals(name)) {
 					Tools.shoeMessage("请输入姓名");
 					return;
 				}
@@ -392,15 +398,15 @@ public class ManageView {
 					Tools.shoeMessage("请选择性别");
 					return;
 				}
-				if (age.equals("")) {
+				if ("".equals(age)) {
 					Tools.shoeMessage("请输入年龄");
 					return;
 				}
-				if (grade.equals("")) {
+				if ("".equals(grade)) {
 					Tools.shoeMessage("请输入班级");
 					return;
 				}
-				if (conditionNum.equals("")) {
+				if ("".equals(conditionNum)) {
 					Tools.shoeMessage("请输入要更改的【学号】");
 					return;
 				}
@@ -425,10 +431,11 @@ public class ManageView {
 
 		// ---------- 查找学生 ----------
 		btnSearch.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+			@Override
+            public void actionPerformed(ActionEvent e) {
 				String conditionNum = textField_search.getText().trim();
 
-				if (!conditionNum.equals("")) {
+				if (!"".equals(conditionNum)) {
 					// 按学号精确查询
 					Student student = new StudentDao().getStudentByNum(conditionNum);
 					if (student != null) {
@@ -443,9 +450,9 @@ public class ManageView {
 						textField_telephone.setText(student.getTelephone() != null ? student.getTelephone() : "");
 						textField_dorm.setText(student.getDorm() != null ? student.getDorm() : "");
 
-						if (student.getGender() != null && student.getGender().equals("男")) {
+						if (student.getGender() != null && "男".equals(student.getGender())) {
 							rdbtnMale.setSelected(true);
-						} else if (student.getGender() != null && student.getGender().equals("女")) {
+						} else if (student.getGender() != null && "女".equals(student.getGender())) {
 							rdbtnFemale.setSelected(true);
 						} else {
 							rdbtnAll.setSelected(true);
@@ -501,7 +508,8 @@ public class ManageView {
 
 		// ---------- 重置数据 ----------
 		btnReset.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+			@Override
+            public void actionPerformed(ActionEvent e) {
 				clearInputFields();
 				refreshTable();
 			}

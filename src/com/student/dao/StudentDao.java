@@ -86,9 +86,13 @@ public class StudentDao {
             }
 
             Object valueObj = field.get(student);
-            if (valueObj == null) continue;
+            if (valueObj == null) {
+                continue;
+            }
             String fieldValue = valueObj.toString().trim();
-            if (fieldValue.isEmpty()) continue;
+            if (fieldValue.isEmpty()) {
+                continue;
+            }
 
             if (whereClause.length() == 0) {
                 whereClause.append(" WHERE ").append(fieldName).append(" LIKE ?");

@@ -120,20 +120,21 @@ public class RegisterView {
 		frame.getContentPane().add(lblNewLabel);
 
 		btnNewButton.addActionListener(new  ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+			@Override
+            public void actionPerformed(ActionEvent e) {
 				//点击注册事件
 				String name = textField.getText();
 				String account = textField_1.getText();
 
 				String password =new String(passwordField.getPassword());
 				String password_1 = new String(passwordField_1.getPassword());
-				if(name.equals("")){
+				if("".equals(name)){
 					Tools.shoeMessage("请输入姓名");
-				}else if(account.equals("")){
+				}else if("".equals(account)){
 					Tools.shoeMessage("请输入账号");
-				}else if(password.equals("")){
+				}else if("".equals(password)){
 					Tools.shoeMessage("请输入密码");
-				}else if(password_1.equals("")){
+				}else if("".equals(password_1)){
 					Tools.shoeMessage("请再次输入密码");
 				}else if(!password.equals(password_1)){
 						Tools.shoeMessage("两次密码不一致");

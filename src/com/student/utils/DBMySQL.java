@@ -75,8 +75,14 @@ public class DBMySQL {
             return null;
         } finally {
             // 👇 关闭资源
-            try { if (resultSet != null) resultSet.close(); } catch (SQLException e) {}
-            try { if (pst != null) pst.close(); } catch (SQLException e) {}
+            try { if (resultSet != null) {
+                resultSet.close();
+            }
+            } catch (SQLException e) {}
+            try { if (pst != null) {
+                pst.close();
+            }
+            } catch (SQLException e) {}
             // 注意：不要关闭 conn，因为 DButil.con 是单例，关闭后后续无法使用
         }
     }
@@ -93,7 +99,7 @@ public class DBMySQL {
             //创建一个类的实例
             instance=tclass.getDeclaredConstructor().newInstance();// 创建类T的新实例
             Student student = new Student();
-            Field fields[] = tclass.getDeclaredFields();//获取一个类当中所有声明的字段
+            Field[] fields = tclass.getDeclaredFields();//获取一个类当中所有声明的字段
             if(resultSet.next()) {
                 for (Field field : fields) {
                     field.setAccessible(true);//允许访问私有字段
