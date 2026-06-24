@@ -40,12 +40,12 @@ public class DBMySQL {
 
     public static <T> List<T> QueryAll(String sql, Class<T> tClass, String ...data) {
         List<T> list = new ArrayList<>();
-        Connection conn = null;  // 👈 用局部变量，不要用成员变量
+        Connection conn = null;  // 用局部变量，不要用成员变量
         PreparedStatement pst = null;
         ResultSet resultSet = null;
 
         try {
-            conn = getConnection();  // 👈 赋值给局部变量
+            conn = getConnection();  // 赋值给局部变量
             if (conn == null) {
                 System.out.println("错误：数据库连接为 null，请检查数据库配置");
                 return null;
@@ -74,7 +74,7 @@ public class DBMySQL {
             e.printStackTrace();
             return null;
         } finally {
-            // 👇 关闭资源
+            // 关闭资源
             try { if (resultSet != null) {
                 resultSet.close();
             }
